@@ -2,6 +2,7 @@ package com.example.avinashkumar.enolved;
 
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.content.Intent;
 
 public class DataEntry extends AppCompatActivity {
 
@@ -13,8 +14,9 @@ public class DataEntry extends AppCompatActivity {
 
     @Override
     public void onBackPressed() {
-        super.onBackPressed();
-        android.os.Process.killProcess(android.os.Process.myPid());
-        System.exit(1);
+        Intent homeIntent = new Intent(Intent.ACTION_MAIN);
+        homeIntent.addCategory( Intent.CATEGORY_HOME );
+        homeIntent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+        startActivity(homeIntent);
     }
 }
