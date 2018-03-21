@@ -1,5 +1,7 @@
 <resources>
     <string name="app_name">Enolved</string>
+    <string name="login_failed">No Connection
+        Login failed</string>
     <string-array name="sem">
         <item>First</item>
         <item>Second</item>
