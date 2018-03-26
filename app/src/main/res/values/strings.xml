@@ -1,3 +1,23 @@
 <resources>
     <string name="app_name">Enolved</string>
+    <string name="login_failed">No Connection
+        Login failed</string>
+    <string-array name="sem">
+        <item>First</item>
+        <item>Second</item>
+        <item>Third</item>
+        <item>Forth</item>
+        <item>Fifth</item>
+        <item>Sixth</item>
+        <item>Seventh</item>
+        <item>Eighth</item>
+    </string-array>
+    <string-array name="sub">
+        <item>First</item>
+        <item>Second</item>
+        <item>Third</item>
+        <item>Forth</item>
+        <item>Fifth</item>
+        <item>Sixth</item>
+    </string-array>
 </resources>

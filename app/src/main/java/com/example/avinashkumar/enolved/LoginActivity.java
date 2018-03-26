@@ -1,6 +1,7 @@
 package com.example.avinashkumar.enolved;
 
 import android.content.Intent;
+import android.net.NetworkInfo;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
@@ -13,8 +14,13 @@ import com.google.android.gms.auth.api.signin.GoogleSignIn;
 import com.google.android.gms.common.SignInButton;
 import com.google.android.gms.tasks.Task;
 import com.google.android.gms.common.api.ApiException;
+import android.net.ConnectivityManager;
+import android.content.Context;
+import android.widget.Toast;
 
 public class LoginActivity extends AppCompatActivity {
+    boolean isConnected;        //internet conn.
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -29,12 +35,15 @@ public class LoginActivity extends AppCompatActivity {
 
         setContentView(R.layout.activity_login);
 
-        SignInButton signInButton=findViewById(R.id.sign_in_button);
+        SignInButton signInButton = findViewById(R.id.sign_in_button);
         signInButton.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
-                // Code here executes on main thread after user presses button
-                Intent signInIntent = mGoogleSignInClient.getSignInIntent();
-                startActivityForResult(signInIntent, 2);    //requestCode can have any value
+                check();
+                if (isConnected) {
+                    // Code here executes on main thread after user presses button
+                    Intent signInIntent = mGoogleSignInClient.getSignInIntent();
+                    startActivityForResult(signInIntent, 2);    //requestCode can have any value
+                } else logfailed();
             }
         });
     }
@@ -57,7 +66,7 @@ public class LoginActivity extends AppCompatActivity {
             // a listener.
             Task<GoogleSignInAccount> task = GoogleSignIn.getSignedInAccountFromIntent(data);
             handleSignInResult(task);
-    }
+        }
     }
 
     private void handleSignInResult(Task<GoogleSignInAccount> completedTask) {
@@ -76,12 +85,22 @@ public class LoginActivity extends AppCompatActivity {
 
     public void updateUI(GoogleSignInAccount account) {
         if (account != null) {
-           // Log.d("SIGNED", "Already Signed In");
-            Log.d("NAME", account.getDisplayName());
+            // Log.d("SIGNED", "Already Signed In");
+            //Log.d("NAME", account.getDisplayName());
             Intent intent = new Intent(this, DataEntry.class);
             startActivity(intent);
         }
     }
 
+    public void logfailed() {                                                                       //To create toast, because toast can't be created inside onCreate-onClick
+        Toast toast = Toast.makeText(this, "No connection", Toast.LENGTH_LONG);
+        toast.show();
+    }
+
+    void check() {
+        ConnectivityManager cm = (ConnectivityManager) this.getSystemService(Context.CONNECTIVITY_SERVICE);       //to check internet connectivity
+        NetworkInfo activeNetwork = cm.getActiveNetworkInfo();                                                 //to check internet connectivity
+        isConnected = activeNetwork != null && activeNetwork.isConnectedOrConnecting();                 //to check internet connectivity
+    }
 
 }
